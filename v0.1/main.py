@@ -1,10 +1,26 @@
+# ┌──────────────────────────────────┐
+# │ This code was created by p-i-c-o │
+# │ GitHub:   www.github.com/p-i-c-o │
+# │                                  │
+# │ No referral is required!         │
+# │ This was created for the world.  │
+# └──────────────────────────────────┘
+
+# ------------------------- IMPORTS -------------------------
+
 import socket
+
+# ------------------------ FUNCTIONS ------------------------
 
 def send_data(ip, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ip, port))
-    message = input("Enter message to send: ")
-    s.sendall(message.encode())
+    message = ""
+
+    while message != "exit":
+      message = input("[>]  ")
+      s.sendall(message.encode())
+
     s.close()
 
 def receive_data(port):
@@ -14,8 +30,11 @@ def receive_data(port):
     print("Waiting for connection...")
     conn, addr = s.accept()
     print(f"Connected to {addr}")
-    data = conn.recv(1024)
-    print("Received:", data.decode())
+
+    data = ""
+    while data != "end":
+      data = (conn.recv(1024)).decode()
+      print("Received:", data)
     conn.close()
 
 def main():
@@ -29,6 +48,8 @@ def main():
         receive_data(port)
     else:
         print("Invalid mode!")
+
+# ------------------------ MAIN CODE ------------------------
 
 if __name__ == "__main__":
     main()
